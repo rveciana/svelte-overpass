@@ -11,7 +11,7 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 	let lng = 0;
 	let lat = 0;
 	
-	let heading = 45;
+	let heading = 0;
 	let radius = 1000;
 	let features:Bar[] = [];
 	let amenity = "bar"
@@ -25,12 +25,13 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 		if (navigator.geolocation) {
 			navigator.geolocation.watchPosition(displayLocationInfo);
 	} else {
-		console.log("NO");
+		alert("NO GEOLOCATION");
 	}
 
 	function displayLocationInfo(position) {
 	lng = position.coords.longitude;
 	lat = position.coords.latitude;
+	heading = position.coords.heading ?? 0;
 	const {easting: utmX, northing: utmY, zoneNum: utmZone} = fromLatLon(lat, lng)
 	
 
