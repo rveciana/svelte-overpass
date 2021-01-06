@@ -1,13 +1,15 @@
 import type { Bar } from "./model";
 
-export const drawCompass = (ctx: CanvasRenderingContext2D|undefined, features: Bar[], heading: number) => {
-    if(!ctx){
-        return
+export const drawCompass = (canvas: HTMLCanvasElement, size: number, features: Bar[], heading: number) => {
+    if(size === 0){
+        return;
     }
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.stroke();
+   
     drawIndicator(ctx, heading);
 
     ctx.save();
@@ -36,6 +38,7 @@ export const drawCompass = (ctx: CanvasRenderingContext2D|undefined, features: B
     });
     ctx.rotate(Math.PI/2);
     ctx.restore();
+    console.log("DONE");
 }
 
 

@@ -5,9 +5,10 @@ import { drawCompass } from './draw-compass';
 import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescript/issues/23
 
 
-	let screenW = 0;
+
+	let containerHeight = 0;
+	let containerWidth = 0;
 	let canvas: HTMLCanvasElement;
-	let ctx:CanvasRenderingContext2D;
 	let lng = 0;
 	let lat = 0;
 	
@@ -18,21 +19,26 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 
 
 	onMount(() => {
-		ctx = canvas.getContext('2d');
-
-	
+			
 
 		if (navigator.geolocation) {
-			navigator.geolocation.watchPosition(displayLocationInfo);
+			navigator.geolocation.watchPosition(displayLocationInfo, ()=>{console.log("ERROR");}, { enableHighAccuracy: false, timeout:60000, maximumAge: 0 });
 	} else {
 		alert("NO GEOLOCATION");
 	}
 
-	function displayLocationInfo(position) {
+	window.addEventListener("deviceorientation", setHeading);
+
+	});
+
+const setHeading = (ev:DeviceOrientationEvent)=>{
+	heading = -ev.alpha??0;
+
+}
+const displayLocationInfo = (position: GeolocationPosition) =>{
 	lng = position.coords.longitude;
 	lat = position.coords.latitude;
-	heading = position.coords.heading ?? 0;
-	const {easting: utmX, northing: utmY, zoneNum: utmZone} = fromLatLon(lat, lng)
+	const {easting: utmX, northing: utmY} = fromLatLon(lat, lng)
 	
 
 
@@ -52,17 +58,18 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 	});
 	}
 
-	
-});
-$: drawCompass(ctx, features, heading);
+$: canvasSize = Math.min(containerWidth>containerHeight?containerHeight:containerWidth, 500);
+$: drawCompass(canvas, canvasSize, features, heading);
 </script>
 
-<main bind:clientWidth={screenW} >
+
+<main bind:clientWidth={containerWidth} bind:clientHeight={containerHeight}>
 <canvas
 	bind:this={canvas}
-	width={screenW}
-	height={screenW}
+	width={canvasSize}
+	height={canvasSize}
 ></canvas>
+{canvasSize} {heading} {screen.orientation.type}
 
 </main>
 
