@@ -16,7 +16,7 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 	let radius = 1000;
 	let features:Bar[] = [];
 	let amenity = "bar"
-
+	
 
 	onMount(() => {
 			
@@ -32,7 +32,15 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 	});
 
 const setHeading = (ev:DeviceOrientationEvent)=>{
-	heading = -ev.alpha??0;
+	if(!ev.alpha){
+		heading = 0;
+		return;
+	}
+	const screenOrientation = (screen?.orientation?.type??"portrait-primary").split("-");
+
+	const adjustment = screenOrientation[0] === "portrait" ? 0 : 90;
+	const adjustment2 = screenOrientation[1] === "secondary" ? adjustment - 180: adjustment;
+	heading = adjustment2 - ev.alpha;
 
 }
 const displayLocationInfo = (position: GeolocationPosition) =>{
@@ -56,6 +64,8 @@ const displayLocationInfo = (position: GeolocationPosition) =>{
 	.catch(error => {
 		console.error('There has been a problem with the overpass API:', error);
 	});
+	
+
 	}
 
 $: canvasSize = Math.min(containerWidth>containerHeight?containerHeight:containerWidth, 500);
@@ -69,7 +79,6 @@ $: drawCompass(canvas, canvasSize, features, heading);
 	width={canvasSize}
 	height={canvasSize}
 ></canvas>
-{canvasSize} {heading} {screen.orientation.type}
 
 </main>
 

@@ -30,7 +30,7 @@ export const drawCompass = (canvas: HTMLCanvasElement, size: number, features: B
 
     features.forEach((d,i)=>{
         if(i<=10 ){
-            const dir = -Math.PI/2 + Math.PI*(d.dir - heading)/180;
+           const dir = -Math.PI/2 + Math.PI*(d.dir - heading)/180;
             const scaleDist = distScale(d.dist);
           ctx.strokeText(d.name, scaleDist * Math.cos(dir), scaleDist * Math.sin(dir));
           ctx.fillText(d.name, scaleDist * Math.cos(dir), scaleDist * Math.sin(dir));
@@ -38,7 +38,6 @@ export const drawCompass = (canvas: HTMLCanvasElement, size: number, features: B
     });
     ctx.rotate(Math.PI/2);
     ctx.restore();
-    console.log("DONE");
 }
 
 
