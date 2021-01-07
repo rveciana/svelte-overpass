@@ -27,7 +27,7 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 		alert("NO GEOLOCATION");
 	}
 
-	window.addEventListener("deviceorientation", setHeading);
+	window.addEventListener("deviceorientationabsolute", setHeading);
 
 	});
 
