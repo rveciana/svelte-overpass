@@ -79,7 +79,9 @@ $: drawCompass(canvas, canvasSize, features, heading);
 	width={canvasSize}
 	height={canvasSize}
 ></canvas>
-
+<div class="copyright">
+	© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+</div>
 </main>
 
 <style>
@@ -90,5 +92,7 @@ main {
   	align-content: center;
 	background-color: blanchedalmond;
 	}
-
+.copyright{
+	font-size: 10px;
+}
 </style>
