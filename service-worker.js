@@ -12,6 +12,7 @@ self.addEventListener("install", function(e) {
     })
   );
 });
+
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys().then(function(cacheNames) {
@@ -25,6 +26,7 @@ self.addEventListener("activate", e => {
     })
   );
 });
+
 self.addEventListener("fetch", e => {
   e.respondWith(
     (async function() {

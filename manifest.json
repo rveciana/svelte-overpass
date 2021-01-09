@@ -4,8 +4,7 @@
 	"name": "Svelte Overpass",
 	"short_name": "overpass",
     "display": "standalone",
-    "Scope": "/",
-	"start_url": "/index.html",
+	"start_url": "./",
 	"icons": [
 		{
 			"src": "images/svelte-overpass-192.png",
