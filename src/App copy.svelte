@@ -27,6 +27,7 @@ import type { Bar } from "./model"; //https://github.com/pyoner/svelte-typescrip
 	
 	let deferredPrompt; 
 	let btnInstallAppVisible = false;
+	let pwaDeferredPrompt=null;
 
 	onMount(() => {
 			
@@ -63,14 +64,21 @@ const displayLocationInfo = (position: GeolocationPosition) =>{
 const handleInstall = (e:Event) => {
 		console.log(`app install called`)
 		e.preventDefault();
-		deferredPrompt = e;
-		
+		//deferredPrompt = e;
+		if(pwaDeferredPrompt === null) {
+			deferredPrompt = e;
+			pwaDeferredPrompt.update(s => e);
+		}
+		else {
+			deferredPrompt = pwaDeferredPrompt;
+		} 
 		btnInstallAppVisible = true;
 		console.log(`app install call complete`)
 	};
 
 
 	const installApp = (e:Event) => {
+		console.log("INSTA", deferredPrompt);
 		btnInstallAppVisible = false;
 		deferredPrompt.prompt();
 		deferredPrompt.userChoice
@@ -81,8 +89,8 @@ const handleInstall = (e:Event) => {
 				} else {
 					console.log('User dismissed the A2HS prompt');
 				}
-				deferredPrompt = null;
-				
+				//deferredPrompt = null;
+				pwaDeferredPrompt.update(s => null);
 			});
 	};
 $: {
@@ -122,6 +130,7 @@ $: drawCompass(canvas, canvasSize, features, heading);
 	© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
 </div>
 <button id="btnInstallApp" class="installAppBanner" on:click={installApp} style={'display :' + (btnInstallAppVisible ? 'block' : 'none')} >Install app</button>
+{btnInstallAppVisible}
 </main>
 
 <style>
