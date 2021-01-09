@@ -111,7 +111,7 @@ $: drawCompass(canvas, canvasSize, features, heading);
 <main bind:clientWidth={containerWidth} bind:clientHeight={containerHeight}>
 <canvas bind:this={canvas}/>
 
-<select bind:value={amenity}>
+<select bind:value={amenity} id="amenity-select">
 	{#each amenityOptions as amenityOption}
 	<option value={amenityOption.value} >
 		{amenityOption.label}
@@ -125,14 +125,18 @@ $: drawCompass(canvas, canvasSize, features, heading);
 </main>
 
 <style>
+:global(body) {
+	background-color: blanchedalmond;
+}
 main {
 	height: 100%;
 	display: grid;
   	justify-content: center;
   	align-content: center;
-	background-color: blanchedalmond;
+	
 	}
 .copyright{
-	font-size: 10px;
+	font-size: 12px;
 }
+
 </style>
